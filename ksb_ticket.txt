@@ -1,0 +1,20 @@
+﻿진행상황
+
+bus/reservation (여러명 아직)
+- 예매정보 param 받은 후
+- 예매내역 확인
+
+bus/doReserve (여러명 아직) -> ticket/check
+- ticket 데이터 생성 및 티켓 id 가져옴
+- 이메일로 결제 진행
+- 티켓id 넘김
+
+home/main (아직) -> 예매번호 검색 -> ticket/check
+- 예매번호 넘김
+
+member/myPage (아직) -> 목록 중 건 클릭 -> ticket/check
+- 티켓id 넘김
+
+ticket/check
+- 넘어온 파라미터
+- id/ 티켓코드에 따라 ticket 객체 불러옴

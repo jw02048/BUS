@@ -1,4 +1,4 @@
-package com.sbs;
+package com.sbs.bus;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CuniApplicationTests {
+public class BusApplicationTests {
 
 	@Test
 	public void contextLoads() {

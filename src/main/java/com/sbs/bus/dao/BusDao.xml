@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sbs.bus.dao.BusDao">
+	<select id="getTicket" parameterType="Map" resultMap="Ticket">
+		SELECT T.*, S1.departureTime, S1.estimatedTime, S1.departure, S1.destination, M.name
+		FROM ticket AS T
+		LEFT JOIN (
+			SELECT S.id, S.departureTime, S.estimatedTime, L.departure, L.destination
+			FROM service AS S
+			LEFT JOIN line AS L
+			ON S.lineId = L.id
+		) AS S1
+		ON T.serviceId = S1.id
+		LEFT JOIN member AS M
+		ON T.memberId = M.id
+		WHERE 
+		<choose>
+			<when test="ticketCode != null and ticketCode != ''">
+				T.ticketCode = #{ticketCode}
+			</when>
+			<otherwise>
+				T.id = #{id}
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="newTicket" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO ticket
+		SET regDate = NOW(),
+		`ticketCode` = #{ticketCode}, 
+		`departureDate` = #{departureDate}, 
+		`serviceId` = #{serviceId}, 
+		`seatNum` = #{seatNum}, 
+		`memberId` = #{memberId},
+		`email` = #{email}, 
+		`charge` = #{charge}
+	</insert>
+
+	<resultMap type="Ticket" id="Ticket">
+		<id property="id" column="id" />
+		<id property="regDate" column="regDate" />
+		<id property="ticketCode" column="ticketCode" />
+		<id property="departureDate" column="departureDate" />
+		<id property="serviceId" column="serviceId" />
+		<id property="seatNum" column="seatNum" />
+		<id property="memberId" column="memberId" />
+		<id property="email" column="email" />
+		<id property="charge" column="charge" />
+		<association property="extra" javaType="java.util.HashMap">
+			<result property="departureTime" column="departureTime" />
+			<result property="estimatedTime" column="estimatedTime" />
+			<result property="departure" column="departure" />
+			<result property="destination" column="destination" />
+			<result property="memberName" column="name" />
+		</association>
+	</resultMap>
+</mapper>

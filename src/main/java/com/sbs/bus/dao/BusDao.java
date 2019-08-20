@@ -1,13 +1,14 @@
-package com.sbs.bus.service;
+package com.sbs.bus.dao;
 
 import java.util.Map;
+
+import org.apache.ibatis.annotations.Mapper;
 
 import com.sbs.bus.dto.Bus;
 import com.sbs.bus.dto.Line;
 
-public interface BusService {
-
-	public Map<String, Object> doReserve(Map<String, Object> param);
+@Mapper
+public interface BusDao {
 
 	public Line getServiceData(Map<String, Object> param);
 

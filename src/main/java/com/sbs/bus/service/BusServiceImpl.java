@@ -1,6 +1,6 @@
 package com.sbs.bus.service;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.groovy.util.Maps;
@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.sbs.bus.dao.BusDao;
 import com.sbs.bus.handler.MailHandler;
-import com.sbs.bus.util.CUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,6 +21,9 @@ public class BusServiceImpl implements BusService {
 	private String emailSender;
 	@Value("${custom.emailSenderName}")
 	private String emailSenderName;
+	
+	@Autowired
+	BusDao busDao;
 
 	@Autowired
 	private JavaMailSender sender;
@@ -50,6 +53,18 @@ public class BusServiceImpl implements BusService {
 		}
 
 		return Maps.of("msg", msg, "resultCode", resultCode);
+	}
+
+	
+	public int getLineId(Map<String, Object> reservationInfo) {
+		
+		return busDao.getLineId(reservationInfo);
+	}
+
+
+	public List<com.sbs.bus.dto.Service> getServiceList(Map<String,Object> reservationInfo) {
+		
+		return busDao.getServiceList(reservationInfo);
 	}
 
 }

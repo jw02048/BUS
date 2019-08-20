@@ -11,18 +11,18 @@
 
 <script>
 	function sendPointForm(form) {
-		form.startPoint.value = form.startPoint.value.trim();
-		if (form.startPoint.value.length == 0) {
+		form.departure.value = form.departure.value.trim();
+		if (form.departure.value.length == 0) {
 			alert('출발지를 선택해주세요.');
 			return false;
 		}
-		form.endPoint.value = form.endPoint.value.trim();
-		if (form.endPoint.value.length == 0) {
+		form.destination.value = form.destination.value.trim();
+		if (form.destination.value.length == 0) {
 			alert('도착지를 선택해주세요.');
 			return false;
 		}
-		form.boardingDate.value = form.boardingDate.value.trim();
-		if (form.boardingDate.value.length == 0) {
+		form.departureDate.value = form.departureDate.value.trim();
+		if (form.departureDate.value.length == 0) {
 			alert('출발날짜를 선택해주세요.');
 			return false;
 		}
@@ -112,7 +112,7 @@
 <br>
 
 <div class="con table-common pointForm">
-	<form action="../bus/order-step-time" method="POST"
+	<form action="../bus/schedule" method="POST"
 		onsubmit="sendPointForm(this); return false;">
 		<table>
 			<colgroup>
@@ -121,8 +121,8 @@
 			</colgroup>
 			<tbody>
 				<tr>
-					<th><input type="text" name="startPoint" placeholder="출발지"></th>
-					<th><input type="text" name="endPoint" placeholder="도착지"></th>
+					<th><input type="text" name="departure" placeholder="출발지"></th>
+					<th><input type="text" name="destination" placeholder="도착지"></th>
 				</tr>
 			</tbody>
 		</table>
@@ -135,7 +135,7 @@
 			<tbody>
 				<tr>
 					<th>오늘 날짜 : <span id="today"></span></th>
-					<th><input type="text" id="time" name="boardingDate"  size="13" /></th>
+					<th><input type="text" id="time" name="departureDate"  size="13" /></th>
 				</tr>
 			</tbody>
 		</table>

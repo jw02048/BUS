@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.bus.dto.Member;
 import com.sbs.bus.service.BusService;
@@ -27,11 +28,17 @@ public class BusController {
 	MemberService memberService;
 
 	@RequestMapping("/bus/order-step-payment")
-	public String showMain2(Model model, HttpSession session) {
+	public String payment(Model model, HttpSession session) {
 		long loginedMemberId = (long) session.getAttribute("loginedMemberId");
 		Member member = memberService.getOne(loginedMemberId);
 		model.addAttribute("member", member);
 		return "bus/order-step-payment";
+	}
+
+	@RequestMapping("/bus/order-step-time")
+	@ResponseBody
+	public  Map<String, Object> time(Model model, HttpSession session, @RequestParam Map<String, Object> param) {
+		return param;
 	}
 
 	@RequestMapping("bus/doReserve")

@@ -32,7 +32,7 @@
 
 <div class="popup-bg"></div>
 
-<div class="popup popup-startPoint">
+<div class="popup popup-departure">
 	<div class="head">
 		<div class="btn-close"></div>
 	</div>
@@ -41,25 +41,25 @@
 		<nav class="menu-1">
 			<ul class="row">
 				<li class="cell margin-right-size-1"><input class="block btn-a"
-					type="button" value="서울" onclick="selectStartPoint(this)"></li>
+					type="button" value="서울" onclick="selectDeparture(this)"></li>
 				<li class="cell margin-right-size-1"><input class="block btn-a"
-					type="button" value="인천" onclick="selectStartPoint(this)"></li>
+					type="button" value="인천" onclick="selectDeparture(this)"></li>
 				<li class="cell margin-right-size-1"><input class="block btn-a"
-					type="button" value="대전" onclick="selectStartPoint(this)"></li>
+					type="button" value="대전" onclick="selectDeparture(this)"></li>
 				<li class="cell margin-right-size-1"><input class="block btn-a"
-					type="button" value="대구" onclick="selectStartPoint(this)"></li>
+					type="button" value="대구" onclick="selectDeparture(this)"></li>
 				<li class="cell margin-right-size-1"><input class="block btn-a"
-					type="button" value="부산" onclick="selectStartPoint(this)"></li>
+					type="button" value="부산" onclick="selectDeparture(this)"></li>
 				<li class="cell margin-right-size-1"><input class="block btn-a"
-					type="button" value="울산" onclick="selectStartPoint(this)"></li>
+					type="button" value="울산" onclick="selectDeparture(this)"></li>
 				<li class="cell margin-right-size-1"><input class="block btn-a"
-					type="button" value="광주" onclick="selectStartPoint(this)"></li>
+					type="button" value="광주" onclick="selectDeparture(this)"></li>
 			</ul>
 		</nav>
 	</div>
 </div>
 
-<div class="popup popup-endPoint">
+<div class="popup popup-destination">
 	<div class="head">
 		<div class="btn-close"></div>
 	</div>
@@ -68,19 +68,19 @@
 		<nav class="menu-1">
 			<ul class="row">
 				<li class="cell margin-right-size-1"><input class="block btn-a"
-					type="button" value="서울" onclick="selectEndPoint(this)"></li>
+					type="button" value="서울" onclick="selectDestination(this)"></li>
 				<li class="cell margin-right-size-1"><input class="block btn-a"
-					type="button" value="인천" onclick="selectEndPoint(this)"></li>
+					type="button" value="인천" onclick="selectDestination(this)"></li>
 				<li class="cell margin-right-size-1"><input class="block btn-a"
-					type="button" value="대전" onclick="selectEndPoint(this)"></li>
+					type="button" value="대전" onclick="selectDestination(this)"></li>
 				<li class="cell margin-right-size-1"><input class="block btn-a"
-					type="button" value="대구" onclick="selectEndPoint(this)"></li>
+					type="button" value="대구" onclick="selectDestination(this)"></li>
 				<li class="cell margin-right-size-1"><input class="block btn-a"
-					type="button" value="부산" onclick="selectEndPoint(this)"></li>
+					type="button" value="부산" onclick="selectDestination(this)"></li>
 				<li class="cell margin-right-size-1"><input class="block btn-a"
-					type="button" value="울산" onclick="selectEndPoint(this)"></li>
+					type="button" value="울산" onclick="selectDestination(this)"></li>
 				<li class="cell margin-right-size-1"><input class="block btn-a"
-					type="button" value="광주" onclick="selectEndPoint(this)"></li>
+					type="button" value="광주" onclick="selectDestination(this)"></li>
 			</ul>
 		</nav>
 	</div>
@@ -101,8 +101,8 @@
 				<th>왕복(미구현)</th>
 			</tr>
 			<tr>
-				<th><button class="block btn-a btn-start">출발지 선택</button></th>
-				<th><button class="block btn-a btn-end">도착지 선택</button></th>
+				<th><button class="block btn-a btn-departure">출발지 선택</button></th>
+				<th><button class="block btn-a btn-destination">도착지 선택</button></th>
 			</tr>
 		</tbody>
 	</table>

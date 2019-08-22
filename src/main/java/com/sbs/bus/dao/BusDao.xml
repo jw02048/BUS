@@ -28,6 +28,61 @@
 	
 
 	
+	
+	<select id="getServiceData" parameterType="map" resultMap="Line">
+		SELECT L.id, L.regDate, L.departure, L.destination, L.charge,
+		S.departureTime AS extra__departureTime, S.estimatedTime AS extra__estimatedTime, S.busId
+		AS extra__busId
+		FROM line AS L
+		LEFT JOIN service AS S
+		ON S.lineId = L.id
+		WHERE S.id = #{serviceId}
+	</select>
+
+	<select id="getBus" parameterType="int" resultMap="Bus">
+		SELECT *
+		FROM Bus
+		WHERE id = #{busId}
+	</select>
+
+
+	<resultMap type="Bus" id="Bus">
+		<id property="id" column="id" />
+		<id property="regDate" column="" />
+		<id property="totalSeat" column="" />
+		<association property="extra" javaType="java.util.HashMap">
+
+		</association>
+	</resultMap>
+
+	<resultMap type="Line" id="Line">
+		<id property="id" column="id" />
+		<id property="regDate" column="regDate" />
+		<id property="departure" column="departure" />
+		<id property="destination" column="destination" />
+		<id property="charge" column="charge" />
+		<association property="extra" javaType="java.util.HashMap">
+			<result property="departureTime" column="extra__departureTime" />
+			<result property="estimatedTime" column="extra__estimatedTime" />
+			<result property="busId" column="extra__busId" javaType="java.lang.String" />
+		</association>
+	</resultMap>
+
+	<resultMap type="Ticket" id="Ticket">
+		<id property="id" column="id" />
+		<id property="regDate" column="regDate" />
+		<id property="ticketCode" column="ticketCode" />
+		<id property="boardingDate" column="boardingDate" />
+		<id property="serviceId" column="serviceId" />
+		<id property="seatNum" column="seatNum" />
+		<id property="email" column="email" />
+		<id property="charge" column="charge" />
+		<id property="memberId" column="memberId" />
+		<association property="extra" javaType="java.util.HashMap">
+
+		</association>
+	</resultMap>
+
 	<resultMap id="Service" type="com.sbs.bus.dto.Service">
 		<id property="id" column="id"/>
 		<id property="regDate" column="regDate"/>

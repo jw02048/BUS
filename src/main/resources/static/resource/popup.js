@@ -20,7 +20,7 @@ function selectStartPoint(el) {
 
 	var $popup = $('.pointForm');
 
-	$popup.find('input[name="startPoint"]').val($(el).val());
+	$popup.find('input[name="departure"]').val($(el).val());
 
 	$('.popup-startPoint,.popup-bg').css('display', 'none');
 
@@ -30,7 +30,7 @@ function selectEndPoint(el) {
 
 	var $popup = $('.pointForm');
 
-	$popup.find('input[name="endPoint"]').val($(el).val());
+	$popup.find('input[name="destination"]').val($(el).val());
 
 	$('.popup-endPoint,.popup-bg').css('display', 'none');
 

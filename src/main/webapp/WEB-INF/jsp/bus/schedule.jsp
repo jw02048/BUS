@@ -24,43 +24,43 @@ crossorigin="anonymous">
 </script>
 <style>
 .time-list {
-		margin-top:100px;
-        width: 100%;
-        height: 700px;
-        border:1px solid red;
-    }
+	margin-top:100px;
+    width: 100%;
+    height: 700px;
+    border:1px solid red;
+}
 
 div.left {
-        width: 20%;
-        height: 700px;
-        float: left;
-        box-sizing: border-box;
-        border:1px solid pink;
-    }
+    width: 20%;
+    height: 700px;
+    float: left;
+    box-sizing: border-box;
+    border:1px solid pink;
+}
 
 div.right {
-        width: 80%;
-        float: right;
-        box-sizing: border-box;
-        border:1px solid pink;
-    }
+    width: 80%;
+    float: right;
+    box-sizing: border-box;
+    border:1px solid pink;
+}
 
 div.right .head {
-        height:80px;
-        font-weight:bold;
-        font-size:3rem;
-    }
+    height:80px;
+    font-weight:bold;
+    font-size:3rem;
+}
     
 div.right .head span {
 	display:inline-block;
 }
 
 div.right .body {
-		margin-top:3px;
-        width:100%; 
-        height:600px; 
-        overflow-y:scroll;
-    }
+	margin-top:3px;
+    width:100%; 
+    height:600px; 
+    overflow-y:scroll;
+}
     
 .head-menu .head-common{
 	display:inline-block;

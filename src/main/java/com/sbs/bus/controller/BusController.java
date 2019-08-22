@@ -1,6 +1,6 @@
 package com.sbs.bus.controller;
 
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -11,8 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sbs.bus.dto.Bus;
+import com.sbs.bus.dto.Line;
 import com.sbs.bus.dto.Member;
 import com.sbs.bus.dto.Service;
 import com.sbs.bus.service.BusService;
@@ -31,10 +32,11 @@ public class BusController {
 	MemberService memberService;
 
 	@RequestMapping("/bus/reservation")
-	public String payment(Model model, HttpSession session) {
+	public String payment(Model model, HttpSession session, @RequestParam Map<String, Object> param) {
 		long loginedMemberId = (long) session.getAttribute("loginedMemberId");
 		Member member = memberService.getOne(loginedMemberId);
 		model.addAttribute("member", member);
+		model.addAttribute("param", param);
 		return "bus/reservation";
 	}
 
@@ -57,6 +59,27 @@ public class BusController {
 		return "bus/schedule";
 	}
 
+	@RequestMapping("/bus/seat")
+	public String seat(@RequestParam Map<String, Object> param, Model model) {
+		
+		//input : 출발날짜, 서비스아이디
+		//output : 출발날짜, 서비스아이디, 좌석번호(배열), 요금
+		
+		// 서비스데이터 경로값으로 받아옴
+		Line line = busService.getServiceData(param);
+		
+		// 버스데이터 받아옴
+		int busId = Integer.parseInt((String)line.getExtra().get("busId"));
+		
+		Bus bus = busService.getBus(busId);
+		
+		model.addAttribute("line", line);
+		model.addAttribute("bus", bus);
+		model.addAttribute("param", param);
+		
+		return "bus/seat";
+	}
+		
 	@RequestMapping("bus/doReserve")
 	public String doJoin(Model model, @RequestParam Map<String, Object> param, HttpSession session) {
 

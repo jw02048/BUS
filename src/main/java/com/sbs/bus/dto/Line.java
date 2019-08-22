@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Service {
+@EqualsAndHashCode
+public class Line {
 	private int id;
 	private String regDate;
-	private String departureTime;
-	private String estimatedTime;
-	private int busId;
-	private int lineId;
+	private String departure;
+	private String destination;
+	private int charge;
 	private Map<String, Object> extra;
 }

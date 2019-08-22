@@ -12,9 +12,16 @@ bus/doReserve (여러명 아직) -> ticket/check
 home/main (아직) -> 예매번호 검색 -> ticket/check
 - 예매번호 넘김
 
-member/myPage (아직) -> 목록 중 건 클릭 -> ticket/check
+member/myPage (아직) -> 티켓보기 -> ticket/listCheck
+- 멤버 세션으로 접속
+
+ticket/listCheck -> ticket/check
 - 티켓id 넘김
 
+ticket/listCheck
+- email/ 세션에 따라 ticket 객체 불러옴
+
 ticket/check
-- 넘어온 파라미터
+- 메인에서 티켓코드로 접속
+- 마이페이지 -> 티켓목록 -> 티켓 보기 -> 티켓 id로 접속
 - id/ 티켓코드에 따라 ticket 객체 불러옴

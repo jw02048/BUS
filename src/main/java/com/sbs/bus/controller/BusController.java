@@ -1,6 +1,8 @@
 package com.sbs.bus.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +18,6 @@ import com.sbs.bus.dto.Member;
 import com.sbs.bus.dto.Ticket;
 import com.sbs.bus.service.BusService;
 import com.sbs.bus.service.MemberService;
-import com.sbs.bus.util.CUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,7 +39,7 @@ public class BusController {
 		// parameter
 		// departureDate, serviceId, seatNum, charge
 		String departureDate = "2019-00-00"; 
-		String seatNum = "10"; 
+		String[] seatNums = {"7","8","10","11"}; 
 		int charge = 10000; 
 		int serviceId = 1;  
 		
@@ -46,9 +47,8 @@ public class BusController {
 		String destination = "대전"; //serviceId-lineId
 		String departureTime = "12:00"; //serviceId
 		String estimatedTime = "2시간"; //serviceId
-		
 		reservationInfo.put("departureDate",departureDate);
-		reservationInfo.put("seatNum",seatNum);
+		reservationInfo.put("seatNums",seatNums);
 		reservationInfo.put("charge",charge);
 		reservationInfo.put("departure",departure);
 		reservationInfo.put("destination",destination);
@@ -68,14 +68,14 @@ public class BusController {
 	}
 
 	@RequestMapping("bus/doReserve")
-	public String doReserve(Model model, @RequestParam Map<String, Object> param,HttpServletRequest request ) {
+	public String doReserve(String[] seatNums, Model model, @RequestParam Map<String, Object> param,HttpServletRequest request ) {
 				
 		// parameter
 		// departureDate, serviceId, seatNum, email, charge
 		long memberId = (long)request.getAttribute("loginedMemberId");
 		param.put("memberId", memberId);
 		
-		Map<String, Object> rs = busService.doReserve(param);
+		Map<String, Object> rs = busService.doReserve(param,seatNums);
 
 		String msg = (String) rs.get("msg");
 		
@@ -92,20 +92,59 @@ public class BusController {
 		
 		String redirectUrl = (String) param.get("redirectUrl");
 
+		// 방금!!! 결제가 끝난 애들의 묶음을 보여주기 위한 페이지
+		// 어떤 정보를 기준으로 여러 티켓을 보여주나? 우선은 이메일
+		// 비회원일 경우를 대비해 여러 티켓의 공통정보는 이메일
+		// 티켓에 유효 무효 나눠야 할 듯!!!
 		if (redirectUrl == null || redirectUrl.length() == 0) {
-			redirectUrl = "../ticket/check?id=" + rs.get("ticketId");
+			redirectUrl = "../ticket/listCheck?memberEmail=" + rs.get("memberEmail");
+			
+			// redirectUrl = "../ticket/check?id=" + rs.get("ticketId");
 		}
 
 		model.addAttribute("redirectUrl", redirectUrl);
 
-		// 1.결제 후 바로 jsp이동
+		// 결제 후 바로 jsp이동
 		return "common/redirect";
 
 	}
 	
-	// 2.마이페이지나 예매번호 검색에서 경로 접속
-	@RequestMapping("ticket/check") 
+	// 결제 후 또는 마이페이지 티켓리스트로 접속
+	@RequestMapping("ticket/listCheck") 
+	public String showTicketList(@RequestParam Map<String,Object> param, Model model,HttpServletRequest request) {
+		
+		// 접속 가능한 파라미터 : email, session(마이페이지)
+		
+		List<Ticket> reservedTickets = null;
+		
+		if (param.containsKey("memberEmail")) {
+
+			reservedTickets = busService.getTicketList(param);
+			
+		} else if ((boolean)request.getAttribute("isLogined") ) {
+						
+			param.put("memberId", (long)request.getAttribute("loginedMemberId"));
+			
+			reservedTickets = busService.getTicketList(param);
+		}
+		
+		if (reservedTickets.size() == 0) {
+			model.addAttribute("historyBack", true);
+			model.addAttribute("alertMsg", "예매된 티켓 정보가 없습니다");
+			
+			return "common/redirect";
+		}
+		
+		model.addAttribute("reservedTickets", reservedTickets);
+		
+		return "ticket/listCheck";
+	}
+	
+	// 티켓리스트나 예매번호 검색에서 경로 접속
+	@RequestMapping("ticket/check") //티켓 하나씩
 	public String showTicket(@RequestParam Map<String,Object> param, Model model) {
+
+		// 접속 가능한 파라미터 : id(ticket), ticketCode
 		
 		Ticket reservedTicket = new Ticket();
 		if (param.containsKey("id")) {
@@ -113,9 +152,6 @@ public class BusController {
 		} else if (param.containsKey("ticketCode")) {
 			reservedTicket = busService.getTicket(param);
 		}
-		// 2-1.티켓 번호로 경로 요청 
-		// 2-2.마이페이지에서 예매한 티켓 목록 리스트 중 클릭해서 접속 (티켓 아이디로)
-		// 두 경우 다 티켓 객체 불러와서 모델 삽입
 		
 		if (reservedTicket == null) {
 			model.addAttribute("historyBack", true);

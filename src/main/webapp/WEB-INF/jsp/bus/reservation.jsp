@@ -4,6 +4,7 @@
 <%@ page import="com.sbs.bus.dto.Member"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="pageTitle" value="예매" />
 <%@ include file="../part/head.jspf"%>
 
@@ -38,51 +39,63 @@
 			<tbody>
 				<tr>
 					<th>예매정보<th>
-					<table style="width:300px;margin:0 auto;">
-						<tr>
-							<th>출발날짜</th>
-							<td colspan="3">
-								${reservationInfo.departureDate}
-								<input type="hidden" name="departureDate" value="${reservationInfo.departureDate}" />
-							</td>
-						</tr>
-						<tr>
-							<th>출발지</th>
-							<td>
-								${reservationInfo.departure}
-								<input type="hidden" name="departure" value="${reservationInfo.departure}"/>
-							</td>
-							<th>도착지</th>
-							<td>
-								${reservationInfo.destination}
-								<input type="hidden" name="destination" value="${reservationInfo.destination}"/>
-							</td>
-						</tr>
-						<tr>
-							<th>출발시간</th>
-							<td>
-								${reservationInfo.departureTime}
-								<input type="hidden" name="departureTime" value="${reservationInfo.departureTime}"/>
-							</td>
-							<th>소요시간</th>
-							<td>
-								${reservationInfo.estimatedTime}
-								<input type="hidden" name="endTime" value="${reservationInfo.estimatedTime}" />
-						</tr>
-						<tr>
-							<th>좌석번호</th>
-							<td colspan="3">
-								${reservationInfo.seatNum}
-								<input type="hidden" name="seatNum" value="${reservationInfo.seatNum}"/>
-							</td>
-						</tr>
-					</table>
+					
+					<c:forEach items="${reservationInfo.seatNums}" var="seat" varStatus="status">
+					
+						<table class="ticket ticket-${status.count}" style="width:400px;margin:0 auto;">
+							<tr>
+								<th>출발날짜</th>
+								<td colspan="3">
+									${reservationInfo.departureDate}
+									<input type="hidden" name="departureDate" value="${reservationInfo.departureDate}" />
+								</td>
+							</tr>
+							<tr>
+								<th>출발지</th>
+								<td>
+									${reservationInfo.departure}
+									<input type="hidden" name="departure" value="${reservationInfo.departure}"/>
+								</td>
+								<th>도착지</th>
+								<td>
+									${reservationInfo.destination}
+									<input type="hidden" name="destination" value="${reservationInfo.destination}"/>
+								</td>
+							</tr>
+							<tr>
+								<th>출발시간</th>
+								<td>
+									${reservationInfo.departureTime}
+									<input type="hidden" name="departureTime" value="${reservationInfo.departureTime}"/>
+								</td>
+								<th>소요시간</th>
+								<td>
+									${reservationInfo.estimatedTime}
+									<input type="hidden" name="endTime" value="${reservationInfo.estimatedTime}" />
+							</tr>
+							<tr>
+								<th>좌석번호</th>
+								<td colspan="3">
+									${seat}
+									<input type="hidden" name="seatNums" value="${seat}"/>
+								</td>
+							</tr>
+						</table>
+
+						<c:if test="${!status.last}">
+						
+							<hr/>
+						
+						</c:if>
+					
+					</c:forEach>
+					
 					위 내용을 확인하셨다면 아래에서 결제를 진행해주세요
 				<tr>
 				<tr>
 					<th>결제금액</th>
 					<td>
-						${reservationInfo.charge}원
+						<fmt:formatNumber value = "${reservationInfo.charge}"  type="number" /> 원
 						<input type="hidden" name="charge" value="${reservationInfo.charge}"/>
 					</td>
 				</tr>

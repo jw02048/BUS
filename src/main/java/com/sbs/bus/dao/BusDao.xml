@@ -25,6 +25,30 @@
 		</choose>
 	</select>
 
+	<select id="getTicketList" parameterType="Map" resultMap="Ticket">
+		SELECT T.*, S1.departureTime, S1.estimatedTime, S1.departure, S1.destination, M.name
+		FROM ticket AS T
+		LEFT JOIN (
+			SELECT S.id, S.departureTime, S.estimatedTime, L.departure, L.destination
+			FROM service AS S
+			LEFT JOIN line AS L
+			ON S.lineId = L.id
+		) AS S1
+		ON T.serviceId = S1.id
+		LEFT JOIN member AS M
+		ON T.memberId = M.id
+		WHERE 
+		<choose>
+			<when test="memberEmail != null and memberEmail != ''">
+				T.email = #{memberEmail}
+			</when>
+			<otherwise>
+				T.memberId = #{memberId}
+			</otherwise>
+		</choose>
+		ORDER BY departureDate, departureTime
+	</select>
+
 	<insert id="newTicket" parameterType="map" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO ticket
 		SET regDate = NOW(),

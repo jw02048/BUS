@@ -1,5 +1,6 @@
 package com.sbs.bus.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -12,5 +13,7 @@ public interface BusDao {
 	public Ticket getTicket(Map<String, Object> param);
 
 	public void newTicket(Map<String, Object> param);
+
+	public List<Ticket> getTicketList(Map<String, Object> param);
 
 }

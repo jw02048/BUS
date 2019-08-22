@@ -1,37 +1,37 @@
 $(function() {
-	$('.popup-startPoint > .head > .btn-close').click(function() {
-		$('.popup-startPoint,.popup-bg').css('display', 'none');
+	$('.popup-departure > .head > .btn-close').click(function() {
+		$('.popup-departure,.popup-bg').css('display', 'none');
 	});
 
-	$('.btn-start').click(function() {
-		$('.popup-startPoint,.popup-bg').css('display', 'block');
+	$('.btn-departure').click(function() {
+		$('.popup-departure,.popup-bg').css('display', 'block');
 	});
 
-	$('.popup-endPoint > .head > .btn-close').click(function() {
-		$('.popup-endPoint,.popup-bg').css('display', 'none');
+	$('.popup-destination > .head > .btn-close').click(function() {
+		$('.popup-destination,.popup-bg').css('display', 'none');
 	});
 
-	$('.btn-end').click(function() {
-		$('.popup-endPoint,.popup-bg').css('display', 'block');
+	$('.btn-destination').click(function() {
+		$('.popup-destination,.popup-bg').css('display', 'block');
 	});
 });
 
-function selectStartPoint(el) {
+function selectDeparture(el) {
 
 	var $popup = $('.pointForm');
 
-	$popup.find('input[name="startPoint"]').val($(el).val());
+	$popup.find('input[name="departure"]').val($(el).val());
 
-	$('.popup-startPoint,.popup-bg').css('display', 'none');
+	$('.popup-departure,.popup-bg').css('display', 'none');
 
 }
 
-function selectEndPoint(el) {
+function selectDestination(el) {
 
 	var $popup = $('.pointForm');
 
-	$popup.find('input[name="endPoint"]').val($(el).val());
+	$popup.find('input[name="destination"]').val($(el).val());
 
-	$('.popup-endPoint,.popup-bg').css('display', 'none');
+	$('.popup-destination,.popup-bg').css('display', 'none');
 
 }

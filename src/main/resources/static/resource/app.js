@@ -56,6 +56,7 @@ $(function() {
 		});
 	});
 });
+
 $(function() {
 	// 오늘 날짜를 출력
 	$("#today").text(new Date().toLocaleDateString());

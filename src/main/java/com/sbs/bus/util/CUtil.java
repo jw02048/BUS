@@ -38,6 +38,14 @@ public class CUtil {
 	public static String getTempKey() {
 		return new TempKey().getKey();
 	}
+	
+	public static String getTempKey(int length) {
+		return new TempKey(length).getKey();
+	}
+	
+	public static String getTempNumKey(int length) {
+		return new TempKey(length).getTempNumKey();
+	}
 
 }
 
@@ -47,9 +55,17 @@ class TempKey {
 	public TempKey() {
 		length = 30;
 	}
+	
+	public TempKey(int length) {
+		this.length = length;
+	}
 
 	public String getKey() {
 		return makeKey();
+	}
+	
+	public String getTempNumKey() {
+		return makeNumKey();
 	}
 
 	private String makeKey() {
@@ -58,6 +74,19 @@ class TempKey {
 			Random random = new Random();
 			int key = random.nextInt(75) + 48;
 			if ((key >= 48 && 57 >= key) || (key >= 65 && 90 >= key) || (key >= 97 && 122 >= key)) {
+				buffer.append((char) key);
+			}
+		}
+
+		return buffer.toString();
+	}
+	
+	private String makeNumKey() {
+		StringBuffer buffer = new StringBuffer();
+		while (buffer.length() < length) {
+			Random random = new Random();
+			int key = random.nextInt(75) + 48;
+			if ((key >= 48 && 57 >= key)) {
 				buffer.append((char) key);
 			}
 		}

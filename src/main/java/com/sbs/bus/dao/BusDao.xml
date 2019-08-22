@@ -26,9 +26,6 @@
 		GROUP BY S.id
 	</select>
 	
-
-	
-	
 	<select id="getServiceData" parameterType="map" resultMap="Line">
 		SELECT L.id, L.regDate, L.departure, L.destination, L.charge,
 		S.departureTime AS extra__departureTime, S.estimatedTime AS extra__estimatedTime, S.busId
@@ -39,21 +36,70 @@
 		WHERE S.id = #{serviceId}
 	</select>
 
-	<select id="getBus" parameterType="int" resultMap="Bus">
+	<select id="getBus" parameterType="int" resultType="Bus">
 		SELECT *
 		FROM Bus
 		WHERE id = #{busId}
 	</select>
 
+	<select id="getTicket" parameterType="Map" resultMap="Ticket">
+		SELECT T.*, S1.departureTime, S1.estimatedTime, S1.departure, S1.destination, M.name
+		FROM ticket AS T
+		LEFT JOIN (
+			SELECT S.id, S.departureTime, S.estimatedTime, L.departure, L.destination
+			FROM service AS S
+			LEFT JOIN line AS L
+			ON S.lineId = L.id
+		) AS S1
+		ON T.serviceId = S1.id
+		LEFT JOIN member AS M
+		ON T.memberId = M.id
+		WHERE 
+		<choose>
+			<when test="ticketCode != null and ticketCode != ''">
+				T.ticketCode = #{ticketCode}
+			</when>
+			<otherwise>
+				T.id = #{id}
+			</otherwise>
+		</choose>
+	</select>
 
-	<resultMap type="Bus" id="Bus">
-		<id property="id" column="id" />
-		<id property="regDate" column="" />
-		<id property="totalSeat" column="" />
-		<association property="extra" javaType="java.util.HashMap">
+	<select id="getTicketList" parameterType="Map" resultMap="Ticket">
+		SELECT T.*, S1.departureTime, S1.estimatedTime, S1.departure, S1.destination, M.name
+		FROM ticket AS T
+		LEFT JOIN (
+			SELECT S.id, S.departureTime, S.estimatedTime, L.departure, L.destination
+			FROM service AS S
+			LEFT JOIN line AS L
+			ON S.lineId = L.id
+		) AS S1
+		ON T.serviceId = S1.id
+		LEFT JOIN member AS M
+		ON T.memberId = M.id
+		WHERE 
+		<choose>
+			<when test="memberEmail != null and memberEmail != ''">
+				T.email = #{memberEmail}
+			</when>
+			<otherwise>
+				T.memberId = #{memberId}
+			</otherwise>
+		</choose>
+		ORDER BY departureDate, departureTime
+	</select>
 
-		</association>
-	</resultMap>
+	<insert id="newTicket" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO ticket
+		SET regDate = NOW(),
+		`ticketCode` = #{ticketCode}, 
+		`departureDate` = #{departureDate}, 
+		`serviceId` = #{serviceId}, 
+		`seatNum` = #{seatNum}, 
+		`memberId` = #{memberId},
+		`email` = #{email}, 
+		`charge` = #{charge}
+	</insert>
 
 	<resultMap type="Line" id="Line">
 		<id property="id" column="id" />
@@ -68,21 +114,6 @@
 		</association>
 	</resultMap>
 
-	<resultMap type="Ticket" id="Ticket">
-		<id property="id" column="id" />
-		<id property="regDate" column="regDate" />
-		<id property="ticketCode" column="ticketCode" />
-		<id property="boardingDate" column="boardingDate" />
-		<id property="serviceId" column="serviceId" />
-		<id property="seatNum" column="seatNum" />
-		<id property="email" column="email" />
-		<id property="charge" column="charge" />
-		<id property="memberId" column="memberId" />
-		<association property="extra" javaType="java.util.HashMap">
-
-		</association>
-	</resultMap>
-
 	<resultMap id="Service" type="com.sbs.bus.dto.Service">
 		<id property="id" column="id"/>
 		<id property="regDate" column="regDate"/>
@@ -92,6 +123,25 @@
 		<id property="lineId" column="lineId"/>
 		<association property="extra" javaType="HashMap">
 			<id property="remainingSeats" column="remainingSeats"/>
+		</association>
+	</resultMap>
+	
+	<resultMap type="Ticket" id="Ticket">
+		<id property="id" column="id" />
+		<id property="regDate" column="regDate" />
+		<id property="ticketCode" column="ticketCode" />
+		<id property="departureDate" column="departureDate" />
+		<id property="serviceId" column="serviceId" />
+		<id property="seatNum" column="seatNum" />
+		<id property="memberId" column="memberId" />
+		<id property="email" column="email" />
+		<id property="charge" column="charge" />
+		<association property="extra" javaType="java.util.HashMap">
+			<result property="departureTime" column="departureTime" />
+			<result property="estimatedTime" column="estimatedTime" />
+			<result property="departure" column="departure" />
+			<result property="destination" column="destination" />
+			<result property="memberName" column="name" />
 		</association>
 	</resultMap>
 </mapper>

@@ -15,5 +15,4 @@ public class Bus {
 	private int id;
 	private String regDate;
 	private int totalSeat;
-	private Map<String, Object> extra;
 }

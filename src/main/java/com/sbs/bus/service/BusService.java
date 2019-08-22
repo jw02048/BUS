@@ -6,8 +6,14 @@ import com.sbs.bus.dto.Service;
 import com.sbs.bus.dto.Bus;
 import com.sbs.bus.dto.Line;
 
+import com.sbs.bus.dto.Ticket;
+
 public interface BusService {
-	public Map<String, Object> doReserve(Map<String, Object> param);
+	public Map<String, Object> doReserve(Map<String, Object> param, String[] seatNums, String[] charges);
+
+	public Ticket getTicket(Map<String, Object> param);
+
+	public  List<Ticket> getTicketList(Map<String, Object> param);
 
 	public int getLineId(Map<String, Object> reservationInfo);
 

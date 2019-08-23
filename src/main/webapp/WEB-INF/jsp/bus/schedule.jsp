@@ -27,7 +27,7 @@ crossorigin="anonymous">
 		margin-top:100px;
         width: 100%;
         height: 700px;
-        border:1px solid red;
+        border:1px solid black;
     }
 
 div.left {
@@ -35,14 +35,14 @@ div.left {
         height: 700px;
         float: left;
         box-sizing: border-box;
-        border:1px solid pink;
+        border:1px solid gray;
     }
 
 div.right {
         width: 80%;
         float: right;
         box-sizing: border-box;
-        border:1px solid pink;
+        border:1px solid gray;
     }
 
 div.right .head {
@@ -55,60 +55,131 @@ div.right .head span {
 	display:inline-block;
 }
 
-div.right .body {
+div.right .bustime-body {
 		margin-top:3px;
         width:100%; 
         height:600px; 
         overflow-y:scroll;
     }
-    
-.head-menu .head-common{
-	display:inline-block;
-	width:150px;
+
+.right .head:first-child i{
+	background-color:#ddd;
+	padding:5px;
 }
+
+.right .head {
+	background-color:#eee;
+	text-align:center
+}
+
+.infoBox {
+	text-align:center;
+	font-size:1.2rem;
+}
+
+.route_wrap .roundBox {
+	display:block;
+	font-size:22px;
+	padding-left:10px;
+	position:relative;
+}
+
+.route_wrap .roundBox::before {
+	display:block;
+	position:absolute;
+	left:40px;
+	top:0;
+	width:40px;
+	height:40px;
+	border-radius:50%;
+	font-size:12px;
+	text-align:center;
+	line-height:40px;
+	background-color:pink;
+}
+
+.route_wrap div:first-child > .roundBox::after {
+	display:block;
+	content:"";
+	position:absolute;
+	left:59px;
+	top:40px;
+	width:1px;
+	height:100%;
+	border-left:1px solid #ddd;
+}
+
+.route_wrap .departure::before {
+	content:"출발";
+}
+
+.route_wrap .arrive::before {
+	content:"도착";
+}
+
+.bustime-head:first-child {
+	width:40%;
+}
+
+.bustime-head {
+	width:100%;
+	padding:0 15px 0 20px;
+	border-bottom:1px solid #e6e6e6;
+}
+
 
 </style>
 
 <div class="time-list table-common con">
 	<div class="left">
-		<div>
-			날짜 :
-			<c:out value="${Info.departureDate}" /><br>
-			출발 :
-			<c:out value="${Info.departure}" /><br>
-			도착 :
-			<c:out value="${Info.destination}" /><br>
+		<div class="infoBox">
+			<p class="date">
+				<c:out value="${Info.departureDate}" />
+			</p>
+			<div class="route_wrap">
+				<div>
+					<p class="roundBox departure"><c:out value="${Info.departure}" /></p>
+				</div>
+				<div>
+					<p class="roundBox arrive"><c:out value="${Info.destination}" /></p>
+				</div>
+			</div>
+			<div>
+				요금정보
+			</div>	
 		</div>
 	</div>
 	<div class="right">
 		<div class="head">
-			<span style="padding:0 10px;"><i class="fas fa-redo"></i></span>
-			<c:out value="${Info.departureDate}" />
-			<span style="padding:0 15px; float:right"><i class="far fa-calendar-alt"></i></span>
+			<span style="padding:5px 10px; float:left; font-size:2.7rem;"><i class="fas fa-redo"></i></span>
+			<span><c:out value="${Info.departureDate}" /></span>
+			<span style="padding:1px 10px 10px 10px; float:right; font-size:3rem;"><i class="far fa-calendar-alt"></i></span>
 		</div>
-		<div class="head-menu">
-			<div class="head-common">Departure</div>
-			<div class="head-common">Company</div>
-			<div class="head-common">Grade</div>
-			<div class="head-common">Remaining Seats</div>
-		</div>
-		<div class="body">
-		<table>	
-			<colgroup>
-				<col width="150">
-				<col>
-				<col width="300">
-			</colgroup>
-			<tbody>
-				<c:forEach var="timeList" items="${TimeList}">
-					<tr data-id="${timeList.id}" onclick="submitSelectTime(this); return false;">
-						<td>${timeList.departureTime}</td>
-						<td>${timeList.busId}</td>
-						<td>${timeList.extra.remainingSeats}</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+		<div class="detailBox-body">
+			<p class="bustime-head">
+				<span class="start-time">Departure</span>
+				<span class="bus-Info">Company</span>
+				<span class="grade">Grade</span>
+				<span class="remain">Remaining Seats</span>
+			</p>
+			<div class="bustime-body">
+			<table>	
+				<colgroup>
+					<col width="150">
+					<col>
+					<col width="300">
+				</colgroup>
+				<tbody>
+					<c:forEach var="timeList" items="${TimeList}">
+						<tr data-id="${timeList.id}" onclick="submitSelectTime(this); return false;">
+							<td>${timeList.departureTime}</td>
+							<td>${timeList.busId}</td>
+							<td>${timeList.extra.remainingSeats}</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+			</div>
 		</div>
 	</div>
 </div>

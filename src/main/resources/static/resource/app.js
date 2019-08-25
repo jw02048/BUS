@@ -52,19 +52,38 @@ $(function() {
 	$(function() {
 		$("#testDatepicker").datepicker({
 			minDate : -20,
-			maxDate : "+3D"
+			maxDate : "+3D",
+
+			onSelect: function() {
+				
+			}
 		});
 	});
 });
 
-$(function() {
-	// 오늘 날짜를 출력
-	$("#today").text(new Date().toLocaleDateString());
+function replaceUrlParam(url, paramName, paramValue)
+{
+    if (paramValue == null) {
+        paramValue = '';
+    }
+    var pattern = new RegExp('\\b('+paramName+'=).*?(&|#|$)');
+    if (url.search(pattern)>=0) {
+        return url.replace(pattern,'$1' + paramValue + '$2');
+    }
+    url = url.replace(/[?#]$/,'');
+    return url + (url.indexOf('?')>0 ? '&' : '?') + paramName + '=' + paramValue;
+}
 
-	// datepicker 한국어로 사용하기 위한 언어설정
-	$.datepicker.setDefaults($.datepicker.regional['ko']);
-	$('#time').datepicker({
-		minDate : 0,
-		maxDate : '+1m'
-	});
-});
+function getNoDomainUrl() {
+    var url = window.location.href;
+    var protocol = window.location.protocol;
+    var hostname = window.location.hostname;
+    var port = window.location.port;
+    
+    var prefix = protocol + "//" + hostname;
+    url = url.replace(prefix, '');
+    url = url.replace(':' + port, '');
+    
+    return url;
+}
+

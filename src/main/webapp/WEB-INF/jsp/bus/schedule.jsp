@@ -15,9 +15,6 @@ crossorigin="anonymous">
 <script src="/resource/app.js"></script>
 <script>
 	$(function() {
-		// 오늘 날짜를 출력
-		$("#today").text(new Date().toLocaleDateString());
-	
 		// datepicker 한국어로 사용하기 위한 언어설정
 		$.datepicker.setDefaults($.datepicker.regional['ko']);
 		$('#time').datepicker({
@@ -46,7 +43,57 @@ crossorigin="anonymous">
 		return;
 	}
 </script>
+<style>
+.table-type-1 {
+    width:100%;
+    border-collapse: collapse;
+}
 
+.table-type-1 td, .table-type-1 th {
+    text-align:left;
+    border:1px solid black;
+}
+
+.con {
+    width:1000px;
+}
+
+/* 커스텀 */
+.table-box .table-1 {
+    width:100%;
+}
+
+.body .table-box-body {
+    height:570px;
+    overflow-y:scroll;
+    overflow-x:hidden;
+}
+
+.body {
+    border:1px solid gray;
+}
+
+.body .table-box-head tr th:nth-child(2) {
+	text-align:center;
+}
+
+.body > * > table > * > tr > *:first-child {
+    border-left-width:0;
+}
+
+.body > * > table > * > tr > *:last-child {
+    border-right-width:0;
+}
+
+.body > * > table > * > tr:first-child > * {
+    border-top-width:0;
+}
+
+.body > .table-box-body > table > * > tr:last-child > * {
+    border-bottom-width:0;
+}
+
+</style>
 
 <div class="time-list table-common con">
 	<div class="left">
@@ -74,37 +121,46 @@ crossorigin="anonymous">
 			<span class="btn-date" style="padding:1px 10px 10px 10px; float:right; font-size:3rem;"><i class="far fa-calendar-alt"></i><input id="time" name="departureDate" class="datepicker-a1" readonly></span>
 		</div>
 		<div class="body">
-			<div class="bustime-body">
-			<table>	
-				<colgroup>
-					<col width="150">
-					<col>
-					<col width="300">
-				</colgroup>
-				<thead>
-					<tr>
-						<th>
-							<span class="start-time">Departure</span>
-						</th>
-						<th>
-							<span class="bus-Info">Company / </span>
-							<span class="grade">Grade</span>
-						</th>
-						<th>
-							<span class="remain">Remaining Seats</span>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="timeList" items="${TimeList}">
-						<tr data-id="${timeList.id}" onclick="submitSelectTime(this); return false;">
-							<td>${timeList.departureTime}</td>
-							<td>${timeList.busId}</td>
-							<td>${timeList.extra.remainingSeats}</td>
+			<div class="table-box table-box-head">
+				<table class="table-type-1">	
+					<colgroup>
+						<col width="150">
+						<col>
+						<col width="250">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>
+								<span class="start-time">Departure</span>
+							</th>
+							<th>
+								<span class="bus-Info">Company / </span>
+								<span class="grade">Grade</span>
+							</th>
+							<th>
+								<span class="remain">Remaining Seats</span>
+							</th>
 						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
+					</thead>
+				</table>
+			</div>
+			<div class="table-box table-box-body">
+				<table class="table-type-1">
+					<colgroup>
+						<col width="150">
+						<col>
+						<col width="250">
+					</colgroup>
+					<tbody>
+						<c:forEach var="timeList" items="${TimeList}">
+							<tr data-id="${timeList.id}" onclick="submitSelectTime(this); return false;">
+								<td>${timeList.departureTime}</td>
+								<td>${timeList.busId}</td>
+								<td>${timeList.extra.remainingSeats}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>

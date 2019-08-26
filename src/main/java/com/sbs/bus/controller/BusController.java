@@ -59,7 +59,7 @@ public class BusController {
 		
 		// 서비스데이터 경로값으로 받아옴
 		Line line = busService.getServiceData(param);
-		
+		System.out.println("==================================================" + param.get("departureDate"));
 		// 버스데이터 받아옴
 		int busId = Integer.parseInt((String)line.getExtra().get("busId"));
 		

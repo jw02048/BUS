@@ -8,20 +8,6 @@
 <%@ include file="../part/head.jspf"%>
 
 	<script src="/resource/app.js"></script>
-	<script>
-	$(function() {
-		// 오늘 날짜를 출력
-		$("#today").text(new Date().toLocaleDateString());
-
-		// datepicker 한국어로 사용하기 위한 언어설정
-		$.datepicker.setDefaults($.datepicker.regional['ko']);
-		$('#time').datepicker({
-			minDate : 0,
-			maxDate : '+1m',
-			dateFormat: 'yy-mm-dd',
-		});
-	});
-	</script>
 	
 	<style>
 		.searchBox.ticketCodeMode .searchFormByTicketCode {
@@ -187,7 +173,7 @@
 <br>
 
 <div class="con table-common pointForm">
-	<form action="../bus/schedule" method="GET"
+	<form action="../bus/schedule" method="POST"
 		onsubmit="sendPointForm(this); return false;">
 		<table>
 			<colgroup>
@@ -210,7 +196,7 @@
 			<tbody>
 				<tr>
 					<th>오늘 날짜 : <span id="today"></span></th>
-					<th><input type="text" id="time" name="departureDate"  size="13" readonly/></th>
+					<th><input type="text" id="time" name="departureDate"  size="13" /></th>
 				</tr>
 			</tbody>
 		</table>

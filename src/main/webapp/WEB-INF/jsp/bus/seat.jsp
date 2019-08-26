@@ -7,31 +7,23 @@
 <c:set var="pageTitle" value="좌석선택" />
 <%@ include file="../part/head.jspf"%>
 <style>
-.seatBox {
-	width: 60px;
-	height: 55px;
-	display: inline-block;
-	border: 1px solid;
-	margin: 1.5px 1px;
-}
-.seatBox:nth-child(3n) {
-	margin-left: 60px;
-}
-.seatBox:nth-child(3n+1) {
-	margin-right: 2px;
-	margin-left: 3px;
-}
-.seat-page {
-	width: 1000px;
-	margin-top: 50px;
+/* 폰트 */
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+/* 노말라이즈 */
+html {
+    font-family: "Noto Sans KR", sans-serif;
 }
 
-label {
-	font-size: 1.3rem;
+body, ul, li {
+    margin:0;
+    padding:0;
+    list-style:none;
 }
+/* 커스텀 */
 .left-box {
-	width: 29%;
-	height: 600px;
+	width: 25%;
+	height: 520px;
 	border: 1px solid;
 	float: left;
 	font-size: 1.5rem;
@@ -40,18 +32,105 @@ label {
 	margin-left: 10px;
 }
 .middle-box {
-	width: 30%;
-	height: 600px;
+	width: 269px;
+	height: 520px;
 	border: 1px solid;
 	float: left;
 	
 }
 .right-box {
 	float:left;
-	width: 29%;
-	height: 600px;
+	width: 25%;
+	height: 520px;
 	border: 1px solid;
 	font-size: 1.5rem;
+}
+/* 백그라운드 이미지 적용중 생각대로 안되서 뺌
+.bg_seatBox {
+	background-image:url(https://www.kobus.co.kr/images/common/bg_bus28.png);
+	z-index: -2;
+	position: relative;
+	background-position: 5px -30px;
+}
+*/
+.seat-box {
+    width:200px;
+    margin:0 auto;
+}
+
+.seat-box > ul::after {
+    content:"";
+    display:block;
+    clear:both;
+}
+.seat-box > ul {
+	margin-top: 50px;
+}
+.seat-box > ul > li {
+    float:left;
+    width:25%;
+    text-align:center;
+}
+
+.seat-box > ul > li:nth-child(3n) {
+    margin-left:25%;
+}
+
+.seat-box > ul > li:nth-last-child(2) {
+    margin-left:0;
+}
+
+.seat-box > ul > li > div {
+    position:relative;
+    display:inline-block;
+}
+
+.seat-box > ul > li > div > div {
+    width:40px;
+    height:45px;
+    background-image:url(https://www.kobus.co.kr/images/common/bg_busSeat_s.png);
+    background-position:0 0;
+    position:relative;
+    z-index:-1;
+}
+
+.seat-box > ul > li > div > input {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    border:0;
+    outline:0;
+    opacity:0;
+    cursor:pointer;
+}
+
+.seat-box > ul > li > div > input:checked + div {
+    background-position:0 -48.4px;
+}
+
+.seat-box > ul > li > div > input:checked + div::after {
+    content:"";
+    display:block;
+    width:20px;
+    height:21px;
+    background-image:url(https://www.kobus.co.kr/images/common/ico_busChecked.png);
+    position:absolute;
+    top:0;
+    right:0;
+}
+
+.seat-box > ul > li > div > input:disabled + div {
+    background-position:0 -144px;
+}
+
+.seat-box > ul > li > div > span {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -70%);
+    font-size:0.8rem;
 }
 </style>
 <script>
@@ -60,11 +139,11 @@ label {
 	});
 	
 	function subSelectSeat() {
-		var cnt = $("input:checkbox[name=seatBoxDt1]:checked").length;
+		var cnt = $("input:checkbox[name=seat]:checked").length;
 
 		var serviceId = ${param.serviceId};
 		
-		var departureDate = '${param.departureDate}';
+		var departureDate = ${param.departureDate};
 
 		var seatNums = [];
 		var cnt = 0;
@@ -72,16 +151,14 @@ label {
 		var charges = [];
 		var total = 0;
 
-		$('input[name=seatBoxDt1]').each(function(index, el) {
+		$('input[name=seat]').each(function(index, el) {
 		    var $checkBox = $(el);
 
 		    if ( $checkBox.is(":checked") == true ) {
-
-				alert($checkBox.attr('age'));
 			    
 		    	seatNums[cnt] = $checkBox.val();
 
-		    	if ($checkBox.attr('age') == 'adult') {
+		    	if ($checkBox.attr('data-person-type') == 'adult') {
 		    		charges[cnt] = 10000;
 			    }
 
@@ -89,47 +166,57 @@ label {
 			    cnt++;
 		    }
 		});
-
-// 		for( var i = 0; i < checkBoxSelect.length; i++ ) {
-// 		    if ( checkBoxSelect[i].checked == true ) {
-
-// 				alert(checkBoxSelect[i].attr('age'));
-			    
-// 		    	seatNums[seatCnt] = checkBoxSelect[i].value;
-
-// 		    	if (checkBoxSelect[i].attr('age') == 'adult') {
-// 		    		charges[seatCnt] = '10000';
-// 			    }
-		    	
-// 		    	seatCnt++;
-// 		    }
-// 		}
 		
-		
-		if ( confirm(cnt + ' 좌석 총 요금은' + total + '원입니다.') ) {
+		if ( confirm(cnt + ' 좌석 총 요금은 ' + number_format(total) + '원입니다.') ) {
 			location.replace('./reservation?serviceId=' + serviceId + '&departureDate=' + departureDate + '&charges=' + charges + '&seatNums=' + seatNums);
 			return ;
 		}
 
-// 		var totalCharge = ${line.charge} * cnt;
-		
-// 		var sendArr = [];
-
-// 		var sendCnt = 0;
-
-// 		for( var i = 0; i < checkBoxSelect.length; i++ ) {
-// 		    if ( checkBoxSelect[i].checked == true ) {
-// 		    	sendArr[sendCnt] = checkBoxSelect[i].value;
-// 		    	sendCnt++;
-// 		    }
-// 		}
-		
-// 		if ( confirm(cnt + ' 좌석 총 요금은' + totalCharge + '원입니다.') ) {
-// 			location.replace('./reservation?serviceId=' + serviceId + '&departureDate=' + departureDate + '&totalCharge=' + totalCharge + '&selectSeat=' + sendArr);
-// 			return ;
-// 		}
-
 	}
+	var adultPrice = 10000;
+	var selectableSeatsCount = 5;
+	
+	function number_format(num) {
+	    var regexp = /\B(?=(\d{3})+(?!\d))/g;
+	    return num.toString().replace(regexp, ',');
+	}
+
+	function Seat__getTotalSelected(personType) {
+	    if ( !personType ) {
+	        personType = 'adult';
+	    }
+	    
+	    var selcted = $('.seat-box input[type="checkbox"][name="seat"][data-person-type="' + personType + '"]:checked').length;
+	    return selcted;
+	}
+
+	function Seat__getTotalPrice() {
+	    return adultPrice * Seat__getTotalSelected('adult');
+	}
+
+	function Seat__updateUi() {
+	    var totalPrice = Seat__getTotalPrice();
+	    $('.right-box .total-charge').text(number_format(totalPrice));
+	    
+	    var totalSelected = Seat__getTotalSelected();
+	    $('.right-box .total-select').text(number_format(totalSelected));
+	}
+$(function() {
+	$('.seat-box input[type="checkbox"][name="seat"]').click(function() {
+	    if ( Seat__getTotalSelected() > selectableSeatsCount ) {
+		    alert('좌석선택은 5석까지 가능합니다.');
+	        return false;
+	    }
+	});
+
+	$('.seat-box input[type="checkbox"][name="seat"]').change(function() {
+	    Seat__updateUi();
+	});
+
+	$('.left-box > div > .charge').text(number_format(adultPrice));
+});
+	
+
 </script>
 
 <h3 class="con main-text">즐거운 여행의 시작과 끝, SBS 버스와 함께!</h3>
@@ -143,30 +230,40 @@ label {
 
 		<div class="con">출발지 : ${line.destination}</div>
 		
-		<div class="con charge">요금 : ${line.charge} 원</div>
+		<div class="con">성인요금 : <span class="charge"></span> 원</div>
 
 	</div>
 
 	<div class="middle-box con">
 		<div class="selectSeat_box">
-			<div class="bg_seatBox seat30">
+			<div class="bg_seatBox seat28">
 				<div class="seatList">
-				
-					<c:forEach var="num" begin="1" end="30" step="1" >
-						
+					<div class="seat-box">
+						<ul>
+						<c:forEach var="num" begin="1" end="28" step="1" >
+							<li>
+								<div>
+									<span>${num}</span>
+									<input type="checkbox" name="seat" data-person-type="adult" value="${num}" />
+									<div></div>
+								</div>
+							</li>
+						<!--
 						<span class="seatBox">
 							<input age="adult" type="checkbox" name="seatBoxDt1" id="seatNum_30_${num}" value="${num}" />
 							<label for="seatNum_30_${num}">${num}</label>
 						</span> 
-						
+						-->
 					</c:forEach>	
-					
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="right-box con">
-		총 금액 : <span class="total-charge"></span>
+		<div>선택좌석 수 : <span class="total-select">0</span>좌석</div> 
+		<div>총 금액 : <span class="total-charge">0</span>원</div>
 	</div>
 	<div>
 		<button class="btn-complete-select btn-a" onclick="subSelectSeat(); return false;">선택완료</button>

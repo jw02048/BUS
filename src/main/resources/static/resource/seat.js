@@ -8,6 +8,10 @@ $(function() {
 		subSelectSeat();
 	});
 	
+	var selectableSeatsCount = 5;
+	
+	var remainSeat = totalSeat - seatNums.length;
+	
 	$('.left-box .adultCharge').text(number_format(adultCharge));
 	
 	$('.left-box .departureDate').text(departureDate);
@@ -15,6 +19,10 @@ $(function() {
 	$('.left-box .departure').text(departure);
 	
 	$('.left-box .destination').text(destination);
+	
+	$('.middle-box .head .remain-seat').text(remainSeat);
+	
+	$('.middle-box .head .total-seat').text(totalSeat);
 	
 	for ( var i = 0; i < seatNums.length; i++ ) {
 		$('input:checkbox[name="seat"]').each(function() {
@@ -24,7 +32,7 @@ $(function() {
 		});
 	}
 	
-	var selectableSeatsCount = 5;
+	
 	
 	function subSelectSeat() {
 		
@@ -83,9 +91,6 @@ $(function() {
 	function Seat__updateUi() {
 		var totalCharge = Seat__getTotalCharge();
 		$('.right-box .total-charge').text(number_format(totalCharge));
-
-		var totalSelected = Seat__getTotalSelected();
-		$('.right-box .total-select').text(number_format(totalSelected));
 	}
 
 	$('.seat-box input[type="checkbox"][name="seat"]').click(function() {

@@ -88,7 +88,7 @@
 		</choose>
 		ORDER BY departureDate, departureTime
 	</select>
-
+	
 	<insert id="newTicket" parameterType="map" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO ticket
 		SET regDate = NOW(),
@@ -100,7 +100,14 @@
 		`email` = #{email}, 
 		`charge` = #{charge}
 	</insert>
-
+	
+	<select id="getSelectedSeatNum" parameterType="map" resultType="integer">
+		SELECT seatNum
+		FROM ticket
+		WHERE serviceId = #{serviceId}
+		AND departureDate = #{departureDate}
+	</select>
+	
 	<resultMap type="Line" id="Line">
 		<id property="id" column="id" />
 		<id property="regDate" column="regDate" />

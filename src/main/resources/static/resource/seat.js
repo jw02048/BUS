@@ -1,21 +1,35 @@
-/*
 $(function() {
 	$('.btn-complete-select').click(function() {
+		if ( $('input[name=seat]:checked').length == 0 ) {
+			alert('선택한 좌석이 없습니다.');
+			return false;
+		}
+		
 		subSelectSeat();
 	});
-		
-	var selectableSeatsCount = 5;
 	
-	alert(departureDate);
-	if (isNaN(adultCharge)) {
-		adultCharge = 0;
-		
-		alert(adultCharge);
+	$('.left-box .adultCharge').text(number_format(adultCharge));
+	
+	$('.left-box .departureDate').text(departureDate);
+	
+	$('.left-box .departure').text(departure);
+	
+	$('.left-box .destination').text(destination);
+	
+	for ( var i = 0; i < seatNums.length; i++ ) {
+		$('input:checkbox[name="seat"]').each(function() {
+			if ( this.value == seatNums[i] ) {
+				$(this).attr("disabled", true);
+			}
+		});
 	}
 	
+	var selectableSeatsCount = 5;
+	
 	function subSelectSeat() {
-
 		
+		
+
 		var seatNums = [];
 		var cnt = 0;
 
@@ -38,7 +52,7 @@ $(function() {
 			}
 		});
 
-		if (confirm(cnt + ' 좌석 총 요금은 ' + number_format(total) + '원입니다.')) {
+		if (confirm('출발날짜 ' + departureDate + ', ' + cnt + ' 좌석 총 요금은 ' + number_format(total) + '원입니다.')) {
 			location.replace('./reservation?serviceId=' + serviceId
 					+ '&departureDate=' + departureDate + '&charges=' + charges
 					+ '&seatNums=' + seatNums);
@@ -80,12 +94,9 @@ $(function() {
 			return false;
 		}
 	});
-
+	
 	$('.seat-box input[type="checkbox"][name="seat"]').change(function() {
 		Seat__updateUi();
 	});
 	
-	$('.left-box .adultCharge').text(number_format(adultCharge));
 });
-
-*/

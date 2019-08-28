@@ -26,4 +26,6 @@ public interface BusDao {
 	public void newTicket(Map<String, Object> param);
 
 	public List<Ticket> getTicketList(Map<String, Object> param);
+
+	public List<Integer> getSelectedSeatNum(Map<String, Object> param);
 }

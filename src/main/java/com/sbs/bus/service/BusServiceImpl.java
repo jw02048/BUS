@@ -132,5 +132,10 @@ public class BusServiceImpl implements BusService {
 	public Bus getBus(int busId) {
 		return busDao.getBus(busId);
 	}
+
+	@Override
+	public List<Integer> getSelectedSeatNum(Map<String, Object> param) {
+		return busDao.getSelectedSeatNum(param);
+	}
 	
 }

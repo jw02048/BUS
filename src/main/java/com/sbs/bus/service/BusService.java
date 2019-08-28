@@ -22,4 +22,6 @@ public interface BusService {
 	public Line getServiceData(Map<String, Object> param);
 
 	public Bus getBus(int busId);
+
+	public List<Integer> getSelectedSeatNum(Map<String, Object> param);
 }

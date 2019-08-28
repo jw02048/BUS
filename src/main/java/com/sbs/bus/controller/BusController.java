@@ -57,17 +57,24 @@ public class BusController {
 		//input : 출발날짜, 서비스아이디
 		//output : 출발날짜, 서비스아이디, 좌석번호(배열), 요금
 		
+		model.addAttribute("param", param);
+		
 		// 서비스데이터 경로값으로 받아옴
 		Line line = busService.getServiceData(param);
-		System.out.println("==================================================" + param.get("departureDate"));
+		
+		model.addAttribute("line", line);
+		
 		// 버스데이터 받아옴
 		int busId = Integer.parseInt((String)line.getExtra().get("busId"));
 		
 		Bus bus = busService.getBus(busId);
 		
-		model.addAttribute("line", line);
 		model.addAttribute("bus", bus);
-		model.addAttribute("param", param);
+		
+		// 예매된 좌석확인 및 전달
+		List<Integer> seatNums = busService.getSelectedSeatNum(param);
+		
+		model.addAttribute("seatNums", seatNums);
 		
 		return "bus/seat";
 	}

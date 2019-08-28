@@ -173,7 +173,7 @@
 <br>
 
 <div class="con table-common pointForm">
-	<form action="../bus/schedule" method="POST"
+	<form action="../bus/schedule" method="GET"
 		onsubmit="sendPointForm(this); return false;">
 		<table>
 			<colgroup>
@@ -196,7 +196,7 @@
 			<tbody>
 				<tr>
 					<th>오늘 날짜 : <span id="today"></span></th>
-					<th><input type="text" id="time" name="departureDate"  size="13" /></th>
+					<th><input type="text" id="time" name="departureDate"  size="13" readonly/></th>
 				</tr>
 			</tbody>
 		</table>

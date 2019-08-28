@@ -19,7 +19,7 @@ body, ul, li {
 	height: 520px;
 	border: 1px solid;
 	float: left;
-	font-size: 1.5rem;
+	font-size: 1.2rem;
 }
 .left-box > *, .right-box > * {
 	margin-left: 10px;
@@ -36,7 +36,7 @@ body, ul, li {
 	width: 25%;
 	height: 520px;
 	border: 1px solid;
-	font-size: 1.5rem;
+	font-size: 1.2rem;
 }
 /* 백그라운드 이미지 적용중 생각대로 안되서 뺌
 .bg_seatBox {
